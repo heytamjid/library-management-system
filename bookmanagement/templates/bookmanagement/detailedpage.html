@@ -1,0 +1,59 @@
+{% extends 'basesubpage.html' %}
+{% load static %}
+
+{% block body %}
+
+<h1>{{book.bookname}}<span> (by {{book.author}}) </span></h1>
+{% comment %} <div class="image_panel"> {% endcomment %}
+    <img src="../../../../media/{{book.image}}" alt="CSS Template" width="300" height="300" />
+{% comment %} </div> {% endcomment %}
+<ul>
+    {% comment %} <li>By Deke <a href="#">McClelland</a></li> {% endcomment %}
+</br>
+    <li>Book ID: {{book.bookid}} </li>
+    <li>ISBN: {{book.isbn}}</li>
+    <li>Title: {{book.bookname}}</li>
+    <li>Author: {{book.author}}</li>
+    <li>First Pusblished: {{book.publication_date.date}}</li>
+    <li>Page: {{book.page}}</li>
+    <li>Stock: {{book.stock}} copies</li>
+    <li>Avaiable: {% if book.stock > 0 %} Yes! {% else %} No :'( {%endif%} </li>
+    <p>Category:
+        {% for cate in book.cat.all %}
+        {{cate.categoryname}}, 
+        {% endfor %}</p> 
+    
+   
+</ul>
+
+<p>Desciption: {{book.description}}</p>
+
+<h2>{{warning}}</h1>
+
+
+{% if book.stock < 1 and msg == 'Borrow' %}
+<form>
+    {% csrf_token %}
+<button class="button-54" role="button">Stock Out :( </button>
+</form>
+
+{% elif msg == 'Borrow' %}
+<form method="POST" action="{% url 'borrow' book.bookid %}">
+    {% csrf_token %}
+<button class="button-54" role="button">Borrow This Book!</button>
+</form>
+
+{% else %}
+<form method="POST" action="{% url 'return' book.bookid%}">
+    {% csrf_token %}
+<button class="button-54" role="button">Return It!</button>
+</form>
+{% endif %}
+
+<form method="POST" action="{% url 'wishlist' book.bookid %}">
+    {% csrf_token %}
+<button class="button-54" role="button">{{wi}}</button>
+</form>
+
+
+{% endblock %}

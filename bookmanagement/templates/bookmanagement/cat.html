@@ -1,0 +1,31 @@
+{% extends 'baseindex.html' %}
+
+{% block body %}
+    <h2 style="margin: 20px; text-align: center;">All Books Under Category: {{c}}</h2>
+
+    {% for book in books %}
+    <div id="templatemo_content">
+            
+        <div class="templatemo_product_box">
+            <h2>{{book.bookname}}  <span>by {{book.author}}</span></h2>
+           <img style="max-width: 300px; max-height: 300px" src="../../media/{{book.image}}" alt="image" />
+            <div class="product_info">
+                <p>ISBN: {{book.isbn}}</p>
+                <p>Category:
+                {% for cate in book.cat.all %}
+                {{cate.categoryname}}, 
+                {% endfor %}</p>
+                <p>Desciption: {{book.description}}</p>
+                <p>Published: {{book.publication_date.date}}</p>
+                {% comment %} <div class="buy_now_button"><a href="subpage.html">Buy Now</a></div> {% endcomment %}
+                <div class="button-55"><a href="{% url 'detailedview' book.slug %}">See Details</a></div>
+            </div>
+            <div class="cleaner">&nbsp;</div>
+        </br>
+        </div>
+    
+        
+    </div> <!-- end of content right -->
+    {% endfor %}
+
+    {%endblock%}

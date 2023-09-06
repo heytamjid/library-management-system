@@ -1,0 +1,22 @@
+{% extends 'baseindex.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+    <h3>Create A New Account</h3>
+    {% load crispy_forms_tags %}
+      <form method="POST" action="{% url 'signup'%}" style="width:50%; margin:auto" novalidate>
+        {% csrf_token %}
+        {% comment %} {{form | crispy}} {% endcomment %}
+        {% for fm in form %}
+        {{fm.label_tag}}
+        {{fm}}
+        {{fm.errors | striptags}}
+        </br>
+        </br>
+        {% endfor %}
+        <!--<input type="submit" value="Submit">-->
+        <button class="btn btn-primary" type='submit'>Smash</button>
+      </form>
+
+      {% endblock %}
